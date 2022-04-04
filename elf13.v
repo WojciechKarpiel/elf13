@@ -1,5 +1,6 @@
 (*
- Eksperymenty i praca w toku - jeszcze nie nadaje się do czytania
+Co miało być udowodnione to jest, ale zupełnie nie posprzątane.
+To pracownia zaraz po skończeniu dzieła: da się dogrzebać do wyniku, ale przez morze kupy
  *)
 
 From mathcomp Require Import all_ssreflect.
@@ -155,26 +156,131 @@ Proof.
 Qed.
 
 Open Scope nat_scope.
-(*
-Lemma ddd  a b : ((2 ^ b)== a * 13) -> False.
-  Proof.
-Admitted.    
+
   
 Close Scope nat_scope.
-Lemma nie_mozna_byc_elfem_w_1_13 : ~ Pochodzi (1%N%:Q / 13%N%:Q) .
+
+Lemma swp  (a b : nat) : a%:Q == b%:Q -> a == b.
+Proof.
+  by rewrite ssrnum.Num.Theory.eqr_nat.
+Qed.
+Print swp.
+
+
+  Lemma nie_mozna_byc_elfem_w_1_13_x (ddd: forall a b , ((2 ^ b) %N == (a * 13%N)%N) -> False): ~ Pochodzi (1%N%:Q / 13%N%:Q) .
 Proof.
   move => /xd [a] [b] /eqP .
-
+ 
   rewrite (@GRing.eqr_div _  1%N%:Q 13%N%:Q a%:Q (2^b)%N%:Q ).
-  rewrite (eqP ddd).
-  Search _ ( 1 * _).
   rewrite  GRing.mul1r.
-  Search _ (_ ^ _)%N.
-  
-  move => /eqP.
-  elim: a.
-  rewrite GRing.mul0r.
+  move => /eqP H.
+  apply (@ddd a b).
+  rewrite -(@ssrnum.Num.Theory.eqr_nat rat_numDomainType).
+  rewrite /intmul in H.
+rewrite H.
+apply/eqP. move => {H}.
+ring.
+by simpl.
+
+(*
+rewrite /intmul.
+
+rewrite -[( (2 ^ b))%:R]/((2^b)%N%:Q).
+rewrite /intmul.
+ *)
+apply /eqP.
+move => Q.
+move: Q.
 move => /eqP.
-rewrite ssrnum.Num.Theory.pnatr_eq0.
-Check expgt0.
-*)
+rewrite /intmul.
+rewrite -[0]/(0%:R).
+  rewrite (@ssrnum.Num.Theory.eqr_nat).
+elim: b.
+by simpl. move => b H.
+rewrite expnSr.
+(* Search _ (_ * _ == 0)%N. *)
+rewrite muln_eq0.
+move => /orP. case.
+exact H.
+move => /eqP.
+move => XD.
+discriminate XD.
+Qed.
+
+From mathcomp Require Import prime.
+
+Eval compute in (primes (2 ^ 0)%N).
+Lemma primes2 b : 13%N \in (primes (2^ b.+1))%N -> False. 
+Proof.
+  elim: b.
+  by simpl.
+  (* Search _ (primes (_ * _))%N. *)
+  move => b H.
+  rewrite expnSr.
+  rewrite primesM.
+  move => /orP; case.
+  assumption.
+  by simpl.
+  (* Search (0 < _)%N (_ != 0)%N. *)
+  rewrite lt0n.
+  apply: expgt0.
+  by simpl.
+  by simpl.
+Qed.
+
+Lemma primes13 a : 13%N \in (primes (a.+1 * 13 ))%N.
+Proof.
+  rewrite primesM.
+  apply/orP.
+  right.
+  by simpl. by simpl.
+  by simpl.
+Qed.
+
+(* to by się dało łatwo udowodnić analizując czynniki pierwsze oby stron *)
+Lemma ddd: forall a b , ((2 ^ b) %N == (a * 13%N)%N) -> False.
+Proof.
+  Eval compute in (prime_decomp (2^ 4)%N).
+  
+  elim.
+  move => b.
+  (* Search _ ( _ * 0)%nat. *)
+  rewrite mul0n.
+move => /eqP.  
+elim: b.
+by cbn.
+move => n H.
+rewrite expnSr.
+move => /eqP.
+rewrite muln_eq0.
+move => /orP; case.
+move => /eqP; assumption.
+by cbn.
+(***********)
+move => a Ha.
+elim.
+by cbn.
+move => b Hb H.
+pose (ROZNIEMISIOWYWACZ := (fun x => 13 \in (primes x))%N).
+move: (f_equal ROZNIEMISIOWYWACZ (eqP H)).
+rewrite /ROZNIEMISIOWYWACZ => HEHE.
+have X1:( (13%N \in primes (2 ^ b.+1)) == false).
+apply /eqP.
+apply/idP.
+move => QQ.
+apply (primes2 QQ).
+have  X2 : (13%N \in (primes (a.+1 * 13 ))%N)%N == true.
+apply /eqP.
+apply /idP.
+apply: primes13.
+move : HEHE.
+rewrite (eqP X1).
+rewrite (eqP X2).
+done.
+Qed.
+
+Lemma nie_mozna_byc_elfem_w_1_13: ~ Pochodzi (1%N%:Q / 13%N%:Q).
+Proof.
+  apply nie_mozna_byc_elfem_w_1_13_x.
+  apply ddd.
+Qed.

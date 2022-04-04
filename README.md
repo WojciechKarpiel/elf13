@@ -1,6 +1,6 @@
 # Czy można być elfem w jednej trzynastej?
 
-**W TRAKCIE ROBOTY - JEST BAŁAGAN: główny lemat (stopień pochodzenia jest w postaci a/2^b) udowodniony, zostały szczegóły techniczne (1/13 nie da się przedstawić jako a/2^b) i sprzątanie**
+**W TRAKCIE ROBOTY - JEST BAŁAGAN: dowód skończony, ale w pliku jest więcej eksperymentów niż właściwego dowodu**
 
 
 Znasz to uczucie, gdy siedzisz w karczmie i popijasz sobie korzenne piwo po całym dniu polowania na smoki, a tu nagle jakiś pajac stolik obok zaczyna się głośno przechwalać, że jest elfem w 1/16?
@@ -26,3 +26,7 @@ Istnieją:
 Stopień pochodzenia jest w postaci a/2^b, gdzie a,b ∈ ℕ.
 
 Dowód: przez indukcję na strukturze modelu.
+
+## Wymagania
+
+DOZRO: do spisania po sprzątaniu
