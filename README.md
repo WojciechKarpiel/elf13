@@ -1,8 +1,5 @@
 # Czy można być elfem w jednej trzynastej?
 
-**W TRAKCIE ROBOTY - JEST BAŁAGAN: dowód skończony, ale w pliku jest więcej eksperymentów niż właściwego dowodu**
-
-
 Znasz to uczucie, gdy siedzisz w karczmie i popijasz sobie korzenne piwo po całym dniu polowania na smoki, a tu nagle jakiś pajac stolik obok zaczyna się głośno przechwalać, że jest elfem w 1/16?
 Zaraz dołączy jakiś drugi cymbał, który będzie twierdził, że jest elfem w 1/8; i jakiś trzeci, że w 3/16.
 Kolejny dureń przebije wszystkich wykrzykując, że jest elfem w 1/13.
